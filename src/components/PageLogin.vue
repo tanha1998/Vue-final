@@ -1,7 +1,8 @@
 <template>
-  <div class="flex justify-content-center">
-    <div class="card">
-      <h5 class="text-center">Login</h5>
+  <div class="flex justify-content-center mt-5">
+    <div class="card scalein animation-duration-500 font-bold">
+      <img alt="Vue logo" src="../assets/logo.png" />
+      <h1 class="text-center">Login</h1>
       <form @submit.prevent="handleSubmit(!v$.$invalid)" class="p-fluid">
         <div class="field">
           <div class="p-float-label p-input-icon-right">
@@ -76,7 +77,8 @@
             }}</small
           >
         </div>
-        <Button type="submit" label="Login" class="mt-2" />
+        <Button type="submit" label="Login" class="mt-2 mb-3" />
+        <router-link to="/register"><span>Register</span></router-link>
       </form>
     </div>
   </div>
@@ -85,6 +87,8 @@
 <script>
 import { email, required } from "@vuelidate/validators";
 import { useVuelidate } from "@vuelidate/core";
+import axios from "axios";
+const urlApi = "https://62a6f20e97b6156bff8339c2.mockapi.io/users";
 export default {
   setup: () => ({ v$: useVuelidate() }),
   data() {
@@ -107,39 +111,57 @@ export default {
     };
   },
   methods: {
-    handleSubmit(isFormValid) {
+    async handleSubmit(isFormValid) {
       this.submitted = true;
       if (!isFormValid) {
         return;
       }
+      const users = await axios
+        .get(urlApi)
+        .then((res) => this.checkLogin(res.data));
+      if (users) {
+        // const userName = users.name;
+        this.$router.push({
+          path: "/content",
+          params: { userName: users.name },
+        });
+      } else {
+        this.$toast.add({
+          severity: "error",
+          summary: "Invalid Email or Password",
+          life: 3000,
+        });
+      }
     },
-    resetForm() {
-      this.email = "";
-      this.password = "";
+    checkLogin(data) {
+      const checkLogin = data.find(
+        (item) => item.email === this.email && item.password === this.password
+      );
+      if (email) return checkLogin;
     },
   },
 };
 </script>
 
-<style lang="scss" scoped>
-.form-demo {
+<style scoped>
+.card {
+  min-width: 450px;
+  background-color: #63686dda;
+  padding: 100px 250px;
+  border-radius: 50px;
+}
+form {
+  margin-top: 2rem;
+}
+.field {
+  margin-bottom: 1.5rem;
+}
+.field {
+  margin-bottom: 1.5rem;
+}
+@media screen and (max-width: 960px) {
   .card {
-    min-width: 450px;
-    form {
-      margin-top: 2rem;
-    }
-    .field {
-      margin-bottom: 1.5rem;
-    }
-  }
-  .field {
-    margin-bottom: 1.5rem;
-  }
-
-  @media screen and (max-width: 960px) {
-    .card {
-      width: 80%;
-    }
+    width: 100%;
   }
 }
 </style>

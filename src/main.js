@@ -1,11 +1,13 @@
 import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
+import store from "./store";
 import ToastService from "primevue/toastservice";
 import Password from "primevue/password";
 import InputText from "primevue/inputtext";
 import Dialog from "primevue/dialog";
 
+import Menubar from "primevue/menubar";
 import Calendar from "primevue/calendar";
 import Dropdown from "primevue/dropdown";
 import Checkbox from "primevue/checkbox";
@@ -21,6 +23,7 @@ import "primeicons/primeicons.css";
 
 const app = createApp(App);
 app.use(router);
+app.use(store);
 app.use(PrimeVue);
 app.use(ToastService);
 app.component("Button", Button);
@@ -30,6 +33,7 @@ app.component("Divider", Divider);
 app.component("Dropdown", Dropdown);
 app.component("Checkbox", Checkbox);
 app.component("Calendar", Calendar);
+app.component("Menubar", Menubar);
 
 app.component("InputText", InputText);
 app.component("Toast", Toast);

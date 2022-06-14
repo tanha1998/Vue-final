@@ -1,33 +1,8 @@
 <template>
   <div class="form-demo">
-    <Dialog
-      v-model:visible="showMessage"
-      :breakpoints="{ '960px': '80vw' }"
-      :style="{ width: '30vw' }"
-      position="top"
-    >
-      <div class="flex align-items-center flex-column pt-6 px-3">
-        <i
-          class="pi pi-check-circle"
-          :style="{ fontSize: '5rem', color: 'var(--green-500)' }"
-        ></i>
-        <h5>Registration Successful!</h5>
-        <p :style="{ lineHeight: 1.5, textIndent: '1rem' }">
-          Your account is registered under name <b>{{ name }}</b> ; it'll be
-          valid next 30 days without activation. Please check
-          <b>{{ email }}</b> for activation instructions.
-        </p>
-      </div>
-      <template #footer>
-        <div class="flex justify-content-center">
-          <Button label="OK" @click="toggleDialog" class="p-button-text" />
-        </div>
-      </template>
-    </Dialog>
-
     <div class="flex justify-content-center">
       <div class="card">
-        <h5 class="text-center">Register</h5>
+        <h2 class="text-center">Register</h2>
         <form @submit.prevent="handleSubmit(!v$.$invalid)" class="p-fluid">
           <div class="field">
             <div class="p-float-label">
@@ -153,7 +128,10 @@
               >I agree to the terms and conditions*</label
             >
           </div>
-          <Button type="submit" label="Submit" class="mt-2" />
+          <Button type="submit" label="Submit" class="mt-2 mb-3" />
+          <router-link to="/login"
+            ><span>Already have account! Login</span></router-link
+          >
         </form>
       </div>
     </div>
@@ -164,6 +142,7 @@
 import { email, required } from "@vuelidate/validators";
 import { useVuelidate } from "@vuelidate/core";
 import axios from "axios";
+const urlApi = "https://62a6f20e97b6156bff8339c2.mockapi.io/users";
 export default {
   setup: () => ({ v$: useVuelidate() }),
   data() {
@@ -177,6 +156,7 @@ export default {
       submitted: false,
       countries: null,
       showMessage: false,
+      dataUser: [],
     };
   },
   countryService: null,
@@ -208,61 +188,76 @@ export default {
       .then((d) => (this.countries = d));
   },
   methods: {
-    handleSubmit(isFormValid) {
+    async handleSubmit(isFormValid) {
       this.submitted = true;
-
       if (!isFormValid) {
         return;
       }
+      const users = await axios
+        .get(urlApi)
+        .then((res) => this.checkDataRegister(res.data));
+      if (users) {
+        this.$toast.add({
+          severity: "error",
+          summary: "Email existed",
+          detail: this.email,
+          life: 3000,
+        });
+      } else {
+        this.postDataUser();
+      }
+    },
+    checkDataRegister(data) {
+      const email = data.find((item) => item.email === this.email);
+      if (email) return email;
+    },
+    postDataUser() {
       axios
-        .post("https://62a6f20e97b6156bff8339c2.mockapi.io/users", {
+        .post(urlApi, {
           name: this.name,
           email: this.email,
           password: this.password,
           date: this.date,
           country: this.country,
         })
-        .then((res) => res.data);
-      this.toggleDialog();
+        .then((res) => res.data)
+        .then(() => this.$router.push("/"))
+        .catch((error) => console.log(error))
+        .finally(() => console.log("success"));
     },
-    toggleDialog() {
-      this.showMessage = !this.showMessage;
-
-      if (!this.showMessage) {
-        this.resetForm();
-      }
-    },
-    resetForm() {
-      this.name = "";
-      this.email = "";
-      this.password = "";
-      this.date = null;
-      this.country = null;
-      this.accept = null;
-      this.submitted = false;
-    },
+    // resetForm() {
+    //   this.name = "";
+    //   this.email = "";
+    //   this.password = "";
+    //   this.date = null;
+    //   this.country = null;
+    //   this.accept = null;
+    //   this.submitted = false;
+    // },
   },
 };
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .form-demo {
+}
+.card {
+  min-width: 450px;
+  background-color: #63686dda;
+  padding: 100px 250px;
+  border-radius: 50px;
+}
+form {
+  margin-top: 2rem;
+}
+
+.field {
+  margin-bottom: 1.5rem;
+}
+
+@media screen and (max-width: 960px) {
   .card {
-    min-width: 450px;
-
-    form {
-      margin-top: 2rem;
-    }
-
-    .field {
-      margin-bottom: 1.5rem;
-    }
-  }
-
-  @media screen and (max-width: 960px) {
-    .card {
-      width: 80%;
-    }
+    width: 80%;
   }
 }
 </style>
