@@ -1,7 +1,11 @@
 <template>
   <div class="flex justify-content-center mt-5">
     <div class="card scalein animation-duration-500 font-bold">
-      <img alt="Vue logo" src="../assets/logo.png" />
+      <img
+        alt="Vue logo"
+        style="width: 100px; height: 100px"
+        src="../assets/logo.png"
+      />
       <h1 class="text-center">Login</h1>
       <form @submit.prevent="handleSubmit(!v$.$invalid)" class="p-fluid">
         <div class="field">
@@ -137,7 +141,7 @@ export default {
       const checkLogin = data.find(
         (item) => item.email === this.email && item.password === this.password
       );
-      if (email) return checkLogin;
+      if (checkLogin) return checkLogin;
     },
   },
 };
@@ -145,10 +149,8 @@ export default {
 
 <style scoped>
 .card {
-  min-width: 450px;
-  background-color: #63686dda;
-  padding: 100px 250px;
-  border-radius: 50px;
+  min-width: 300px;
+  background-color: #d6dbe0da;
 }
 form {
   margin-top: 2rem;
@@ -158,6 +160,16 @@ form {
 }
 .field {
   margin-bottom: 1.5rem;
+}
+@media screen and (min-width: 960px) {
+  .p-float-label {
+    width: 500px;
+  }
+  .card {
+    background-color: #d6dbe0da;
+    padding: 100px 250px;
+    border-radius: 50px;
+  }
 }
 @media screen and (max-width: 960px) {
   .card {

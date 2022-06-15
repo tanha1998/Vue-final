@@ -1,7 +1,7 @@
 <template>
-  <div class="form-demo">
+  <div class="form-demo mt-5">
     <div class="flex justify-content-center">
-      <div class="card">
+      <div class="card scalein animation-duration-500 font-bold">
         <h2 class="text-center">Register</h2>
         <form @submit.prevent="handleSubmit(!v$.$invalid)" class="p-fluid">
           <div class="field">
@@ -62,7 +62,9 @@
               <Password
                 id="password"
                 v-model="v$.password.$model"
-                :class="{ 'p-invalid': v$.password.$invalid && submitted }"
+                :class="{
+                  'p-invalid': v$.password.$invalid && submitted,
+                }"
                 toggleMask
               >
                 <template #header>
@@ -77,6 +79,7 @@
                     <li>At least one uppercase</li>
                     <li>At least one numeric</li>
                     <li>Minimum 8 characters</li>
+                    <li>At least one symbol</li>
                   </ul>
                 </template>
               </Password>
@@ -114,7 +117,7 @@
               <label for="country">Country</label>
             </div>
           </div>
-          <div class="field-checkbox">
+          <!-- <div class="field-checkbox">
             <Checkbox
               id="accept"
               name="accept"
@@ -127,7 +130,7 @@
               :class="{ 'p-error': v$.accept.$invalid && submitted }"
               >I agree to the terms and conditions*</label
             >
-          </div>
+          </div> -->
           <Button type="submit" label="Submit" class="mt-2 mb-3" />
           <router-link to="/login"
             ><span>Already have account! Login</span></router-link
@@ -139,10 +142,22 @@
 </template>
 
 <script>
-import { email, required } from "@vuelidate/validators";
+import {
+  email,
+  required,
+  maxLength,
+  minLength,
+  helpers,
+} from "@vuelidate/validators";
 import { useVuelidate } from "@vuelidate/core";
 import axios from "axios";
 const urlApi = "https://62a6f20e97b6156bff8339c2.mockapi.io/users";
+// const contains = (param) => (value) =>
+//   !helpers.req(value) || value.match(param);
+
+const alpha = helpers.regex(
+  /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\\$%\\^&\\*])(?=.{8,})/
+);
 export default {
   setup: () => ({ v$: useVuelidate() }),
   data() {
@@ -164,6 +179,7 @@ export default {
     return {
       name: {
         required,
+        maxLength: maxLength(8),
       },
       email: {
         required,
@@ -171,10 +187,16 @@ export default {
       },
       password: {
         required,
+        minLength: minLength(8),
+        checkSymbolP: alpha,
+        // checkSymbol: contains(
+        //   "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\\$%\\^&\\*])(?=.{8,})"
+        // ),
       },
-      accept: {
-        required,
-      },
+      // ,
+      // accept: {
+      //   required,
+      // },
     };
   },
   mounted() {
@@ -221,6 +243,14 @@ export default {
           country: this.country,
         })
         .then((res) => res.data)
+        .then(() =>
+          this.$toast.add({
+            severity: "success",
+            summary: "Register success",
+            detail: "Email: " + this.email,
+            life: 3000,
+          })
+        )
         .then(() => this.$router.push("/"))
         .catch((error) => console.log(error))
         .finally(() => console.log("success"));
@@ -242,9 +272,8 @@ export default {
 .form-demo {
 }
 .card {
-  min-width: 450px;
-  background-color: #63686dda;
-  padding: 100px 250px;
+  min-width: 300px;
+  background-color: #d6dbe0da;
   border-radius: 50px;
 }
 form {
@@ -254,10 +283,19 @@ form {
 .field {
   margin-bottom: 1.5rem;
 }
-
+@media screen and (min-width: 960px) {
+  .p-float-label {
+    width: 500px;
+  }
+  .card {
+    background-color: #d6dbe0da;
+    padding: 100px 250px;
+    border-radius: 50px;
+  }
+}
 @media screen and (max-width: 960px) {
   .card {
-    width: 80%;
+    width: 100%;
   }
 }
 </style>

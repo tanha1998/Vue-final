@@ -7,7 +7,9 @@ import Password from "primevue/password";
 import InputText from "primevue/inputtext";
 import Dialog from "primevue/dialog";
 
+import FileUpload from "primevue/fileupload";
 import Menubar from "primevue/menubar";
+import TabMenu from "primevue/tabmenu";
 import Calendar from "primevue/calendar";
 import Dropdown from "primevue/dropdown";
 import Checkbox from "primevue/checkbox";
@@ -26,7 +28,9 @@ app.use(router);
 app.use(store);
 app.use(PrimeVue);
 app.use(ToastService);
+//use component primeVue
 app.component("Button", Button);
+app.component("TabMenu", TabMenu);
 app.component("Password", Password);
 app.component("Dialog", Dialog);
 app.component("Divider", Divider);
@@ -34,8 +38,8 @@ app.component("Dropdown", Dropdown);
 app.component("Checkbox", Checkbox);
 app.component("Calendar", Calendar);
 app.component("Menubar", Menubar);
-
 app.component("InputText", InputText);
 app.component("Toast", Toast);
+app.component("FileUpload", FileUpload);
 
 app.mount("#app");
