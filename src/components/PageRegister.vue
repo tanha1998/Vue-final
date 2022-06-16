@@ -151,6 +151,7 @@ import {
 } from "@vuelidate/validators";
 import { useVuelidate } from "@vuelidate/core";
 import axios from "axios";
+import CountryService from "@/service/CountryService";
 const urlApi = "https://62a6f20e97b6156bff8339c2.mockapi.io/users";
 // const contains = (param) => (value) =>
 //   !helpers.req(value) || value.match(param);
@@ -200,14 +201,8 @@ export default {
     };
   },
   mounted() {
-    fetch("https://62a6f20e97b6156bff8339c2.mockapi.io/countries", {
-      method: "get",
-      headers: {
-        "content-type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((d) => (this.countries = d));
+    const countrys = new CountryService();
+    countrys.getCountries().then((d) => (this.countries = d));
   },
   methods: {
     async handleSubmit(isFormValid) {

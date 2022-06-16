@@ -23,6 +23,16 @@ import "primevue/resources/themes/saga-blue/theme.css"; //theme
 import "primevue/resources/primevue.min.css"; //core css
 import "primeicons/primeicons.css";
 
+//import table
+import DataTable from "primevue/datatable";
+import Column from "primevue/column";
+import ColumnGroup from "primevue/columngroup"; //optional for column grouping
+import Row from "primevue/row"; //optional for row
+import MultiSelect from "primevue/multiselect";
+import InputNumber from "primevue/inputnumber";
+import ProgressBar from "primevue/progressbar";
+import Slider from "primevue/slider";
+import "@/assets/flags.css";
 const app = createApp(App);
 app.use(router);
 app.use(store);
@@ -41,5 +51,14 @@ app.component("Menubar", Menubar);
 app.component("InputText", InputText);
 app.component("Toast", Toast);
 app.component("FileUpload", FileUpload);
+app.component("MultiSelect", MultiSelect);
+app.component("InputNumber", InputNumber);
+app.component("ProgressBar", ProgressBar);
+app.component("Slider", Slider);
+//use
+app.component("DataTable", DataTable);
+app.component("Column", Column);
+app.component("ColumnGroup", ColumnGroup);
+app.component("Row", Row);
 
 app.mount("#app");

@@ -1,5 +1,5 @@
 <template>
-  <TabMenu :model="items" :activeIndex="activeIndex" />
+  <header-content-vue></header-content-vue>
   <h1>Hello {{ $store.state.name }}</h1>
   <div class="">
     <FileUpload
@@ -17,18 +17,15 @@
 </template>
 
 <script>
+import HeaderContentVue from "./HeaderContent.vue";
 export default {
   data() {
     return {
-      items: [
-        { label: "Home", icon: "pi pi-fw pi-home" },
-        { label: "Calendar", icon: "pi pi-fw pi-calendar" },
-        { label: "Edit", icon: "pi pi-fw pi-pencil" },
-        { label: "Documentation", icon: "pi pi-fw pi-file" },
-        { label: "Log Out", icon: "pi pi-fw pi-power-off", to: "/" },
-      ],
       username: "",
     };
+  },
+  components: {
+    HeaderContentVue,
   },
   mounted() {
     this.username = this.$route.params.userName;

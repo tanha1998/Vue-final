@@ -1,7 +1,10 @@
 export default class CountryService {
   getCountries() {
-    return fetch("demo/data/countries.json")
-      .then((res) => res.json())
-      .then((d) => d.data);
+    return fetch("https://62a6f20e97b6156bff8339c2.mockapi.io/countries", {
+      method: "get",
+      headers: {
+        "content-type": "application/json",
+      },
+    }).then((res) => res.json());
   }
 }

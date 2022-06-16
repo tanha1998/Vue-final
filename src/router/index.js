@@ -3,6 +3,8 @@ import Home from "../views/Home.vue";
 import Register from "../components/PageRegister.vue";
 import Login from "../components/PageLogin.vue";
 import Content from "../components/Content.vue";
+import ListUser from "../components/ListUser.vue";
+
 const routes = [
   {
     path: "/",
@@ -23,6 +25,11 @@ const routes = [
     path: "/content",
     name: "Content",
     component: Content,
+  },
+  {
+    path: "/listUser",
+    name: "listUser",
+    component: ListUser,
   },
 ];
 const router = createRouter({
