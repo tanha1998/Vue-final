@@ -4,6 +4,8 @@ import Register from "../components/PageRegister.vue";
 import Login from "../components/PageLogin.vue";
 import Content from "../components/Content.vue";
 import ListUser from "../components/ListUser.vue";
+import DataList from "../components/DataList.vue";
+import AddData from "../components/AddData.vue";
 
 const routes = [
   {
@@ -30,6 +32,16 @@ const routes = [
     path: "/listUser",
     name: "listUser",
     component: ListUser,
+  },
+  {
+    path: "/dataList",
+    name: "datalist",
+    component: DataList,
+  },
+  {
+    path: "/add",
+    name: "addData",
+    component: AddData,
   },
 ];
 const router = createRouter({

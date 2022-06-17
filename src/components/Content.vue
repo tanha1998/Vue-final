@@ -1,6 +1,5 @@
 <template>
   <header-content-vue></header-content-vue>
-  <h1>Hello {{ $store.state.name }}</h1>
   <div class="">
     <FileUpload
       name="demo[]"

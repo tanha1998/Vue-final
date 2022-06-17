@@ -1,9 +1,17 @@
-import { createStore } from "vuex";
-const store = createStore({
-  state: { name: "xin chao" },
-  getters: {},
-  mutations: {},
-  actions: {},
-});
+import { reactive, readonly } from "vue";
 
-export default store;
+const state = reactive({
+  user: "admin",
+  dataList: [],
+});
+const methods = {
+  addUser() {
+    state.user = "admin2";
+  },
+};
+const getters = {};
+export default {
+  state: readonly(state),
+  methods,
+  getters,
+};

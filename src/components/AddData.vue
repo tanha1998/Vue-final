@@ -1,8 +1,9 @@
 <template>
+  <HeaderContentVue />
   <div class="form-demo mt-5">
     <div class="flex justify-content-center">
       <div class="card scalein animation-duration-500 font-bold">
-        <h2 class="text-center">Register</h2>
+        <h2 class="text-center">Add user</h2>
         <form @submit.prevent="handleSubmit(!v$.$invalid)" class="p-fluid">
           <div class="field">
             <div class="p-float-label">
@@ -142,17 +143,11 @@
 </template>
 
 <script>
-import {
-  email,
-  required,
-  maxLength,
-  minLength,
-  helpers,
-} from "@vuelidate/validators";
+import { email, required, minLength, helpers } from "@vuelidate/validators";
 import { useVuelidate } from "@vuelidate/core";
 import axios from "axios";
 import CountryService from "@/service/CountryService";
-// import UserService from "@/service/UserService";
+import HeaderContentVue from "./HeaderContent.vue";
 const urlApi = "https://62a6f20e97b6156bff8339c2.mockapi.io/users";
 // const contains = (param) => (value) =>
 //   !helpers.req(value) || value.match(param);
@@ -161,6 +156,9 @@ const alpha = helpers.regex(
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\\$%\\^&\\*])(?=.{8,})/
 );
 export default {
+  components: {
+    HeaderContentVue,
+  },
   setup: () => ({ v$: useVuelidate() }),
   data() {
     return {
@@ -181,7 +179,6 @@ export default {
     return {
       name: {
         required,
-        maxLength: maxLength(8),
       },
       email: {
         required,
@@ -248,7 +245,7 @@ export default {
             life: 3000,
           })
         )
-        .then(() => this.$router.push("/"))
+        .then(() => this.$router.push("/datalist"))
         .catch((error) => console.log(error))
         .finally(() => console.log("success"));
     },

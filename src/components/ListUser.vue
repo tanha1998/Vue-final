@@ -1,5 +1,6 @@
 <template>
   <div>
+    <header-content-vue />
     <DataTable
       :value="customers"
       :paginator="true"
@@ -217,9 +218,13 @@
 <script>
 import { ref, onMounted } from "vue";
 import CustomerService from "@/service/CustomerService";
+import HeaderContentVue from "./HeaderContent.vue";
 import { FilterMatchMode, FilterOperator } from "primevue/api";
 
 export default {
+  components: {
+    HeaderContentVue,
+  },
   setup() {
     onMounted(() => {
       customerService.value.getCustomersLarge().then((data) => {

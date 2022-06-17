@@ -19,8 +19,18 @@ export default {
         to: "/listUser",
       },
       {
+        label: "Data List",
+        icon: "pi pi-fw pi-table",
+        to: "/datalist",
+      },
+      {
+        label: "Add",
+        icon: "pi pi-fw pi-plus-circle",
+        to: "/add",
+      },
+      {
         label: "Log Out",
-        icon: "pi pi-fw pi-cog",
+        icon: "pi pi-fw pi-power-off",
         to: "/login",
       },
     ]);

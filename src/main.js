@@ -33,6 +33,8 @@ import InputNumber from "primevue/inputnumber";
 import ProgressBar from "primevue/progressbar";
 import Slider from "primevue/slider";
 import "@/assets/flags.css";
+import "@/assets/bag.css";
+
 const app = createApp(App);
 app.use(router);
 app.use(store);

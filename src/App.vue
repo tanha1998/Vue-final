@@ -4,23 +4,13 @@
 </template>
 
 <script>
+import store from "@/store";
+import { provide } from "vue";
 export default {
   name: "App",
-  data() {
-    return {
-      value: "",
-    };
-  },
   components: {},
-  methods: {
-    clicked() {
-      this.$toast.add({
-        severity: "error",
-        summary: "Success Message",
-        detail: this.value,
-        life: 3000,
-      });
-    },
+  setup() {
+    provide("store", store);
   },
 };
 </script>
@@ -36,6 +26,7 @@ export default {
 * {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 .container {
   display: inline-flex;
